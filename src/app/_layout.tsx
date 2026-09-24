@@ -8,11 +8,11 @@ export default function RootLayout() {
   return (
     <React.Fragment>
       <Stack>
-        <Stack.Protected guard={true}>
+        <Stack.Protected guard={!isLoggedIn}>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         </Stack.Protected>
 
-        <Stack.Protected guard={false}>
+        <Stack.Protected guard={isLoggedIn}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack.Protected>
       </Stack>
