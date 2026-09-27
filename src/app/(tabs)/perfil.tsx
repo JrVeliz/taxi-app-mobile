@@ -10,11 +10,10 @@ export default function Perfil() {
       </Text>
       <Pressable
         onPress={logOut}
-        className="bg-blue-600 rounded-lg py-3 items-center"
+        className="bg-blue-600 rounded-lg items-center p-3"
       >
         <Text className="text-white font-semibold">Cerrar sesión</Text>
       </Pressable>
-      <Text className="text-6xl">🔴</Text>
     </View>
   );
 }

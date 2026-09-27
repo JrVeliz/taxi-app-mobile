@@ -11,7 +11,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import LockIcon from "../../assets/lock.svg";
+import LockIcon from "../../assets/icons/lock.svg";
 
 export default function Login() {
   const [user, setUser] = useState("");
