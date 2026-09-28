@@ -1,7 +1,7 @@
 import LottieView from "lottie-react-native";
 import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import PantallaCarga from "../assets/lotties/PantallaCarga.json";
+import PantallaCarga from "../assets/lotties/PantallaCargaBase.json";
 
 export default function SplashScreen() {
   return (
