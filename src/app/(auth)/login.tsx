@@ -1,47 +1,69 @@
-import { login } from "@/services/authService";
+import SplashScreen from "@/components/SplashScreen";
+import { useAppReadyStore } from "@/hooks/appReadyStore";
+import { fetchProfile, login } from "@/services/authService";
 import { useAuthStore } from "@/utils/authStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
 import LockIcon from "../../assets/icons/lock.svg";
+import PantallaCargaPerfil from "../../assets/lotties/PantallaCargaPerfil.json";
+
+const MIN_LOTTIE_MS = 1500; //simulacion de espera
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export default function Login() {
+  const [bgLoaded, setBgLoaded] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
+  const setLoginReady = useAppReadyStore((s) => s.setLoginReady);
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(false);
   const { logIn } = useAuthStore();
+
+  useEffect(() => {
+    if (bgLoaded && logoLoaded) setLoginReady(true);
+  }, [bgLoaded, logoLoaded, setLoginReady]);
 
   async function handleLogin() {
     setError("");
     setLoading(true);
     try {
-      await login(user, password);
+      const { token } = await login(user, password);
+      setLoadingProfile(true);
+      const [profile] = await Promise.all([
+        fetchProfile(token),
+        wait(MIN_LOTTIE_MS),
+      ]);
+      console.log(profile);
       logIn();
     } catch (e: any) {
       setError(e.message);
+      setLoadingProfile(false);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-black">
       <Image
         source={require("../../assets/background_login.png")}
         style={{ position: "absolute", width: "100%", height: "100%" }}
         resizeMode="cover"
+        onLoadEnd={() => setBgLoaded(true)}
       />
       <View className="absolute inset-0 bg-black/65" />
-
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "height" : "padding"}
         className="flex-1"
@@ -55,6 +77,7 @@ export default function Login() {
               source={require("../../assets/take_your_time.jpg")}
               className="self-center w-48 h-48"
               resizeMode="center"
+              onLoadEnd={() => setLogoLoaded(true)}
             />
           </View>
 
@@ -91,15 +114,16 @@ export default function Login() {
             <Pressable
               onPress={handleLogin}
               className="bg-primary-container rounded-lg py-3 items-center"
+              disabled={loading || loadingProfile}
             >
               <Text className="text-background font-semibold text-lg">
                 Iniciar sesión
               </Text>
               {loading && <Text className="text-slate-950">Cargando...</Text>}
             </Pressable>
-            {error && (
+            {error !== "" && (
               <Text className="text-critical font-bold text-center pt-4">
-                Error de conexión...
+                {error}
               </Text>
             )}
           </View>
@@ -109,6 +133,11 @@ export default function Login() {
           </Text>
         </ScrollView>
       </KeyboardAvoidingView>
+      {loadingProfile && (
+        <View style={StyleSheet.absoluteFill}>
+          <SplashScreen source={PantallaCargaPerfil} />
+        </View>
+      )}
     </View>
   );
 }

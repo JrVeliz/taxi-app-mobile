@@ -1,17 +1,31 @@
 import LottieView from "lottie-react-native";
+import { ComponentProps } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import PantallaCarga from "../assets/lotties/PantallaCargaBase.json";
+import PantallaCargaBase from "../assets/lotties/PantallaCargaBase.json";
 
-export default function SplashScreen() {
+type LottieSource = ComponentProps<typeof LottieView>["source"];
+
+interface SplashScreenProps {
+  source?: LottieSource;
+  loop?: boolean;
+  onAnimationFinish?: (isCancelled: boolean) => void;
+}
+
+export default function SplashScreen({
+  source = PantallaCargaBase,
+  loop = true,
+  onAnimationFinish,
+}: SplashScreenProps) {
   return (
-    <SafeAreaView edges={[]} className="flex-1 bg-surface justify-items-center">
-      <StatusBar barStyle={"light-content"} />
+    <SafeAreaView edges={[]} className="flex-1 bg-surface">
+      <StatusBar barStyle="light-content" />
       <LottieView
-        source={PantallaCarga}
+        source={source}
         autoPlay
         resizeMode="cover"
-        loop={true}
+        loop={loop}
+        onAnimationFinish={onAnimationFinish}
         style={{ flex: 1, width: "100%" }}
       />
     </SafeAreaView>
