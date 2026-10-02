@@ -8,9 +8,14 @@
     "scheme": "taxiappmobile",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.tuempresa.taxiappmobile",
+      "config": {
+        "googleMapsApiKey": "key"
+      }
     },
     "android": {
+      "package": "com.tuempresa.taxiappmobile",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -31,6 +36,12 @@
         {
           "image": "./src/assets/logo_app_taxi.jpeg",
           "backgroundColor": "#0d1320"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysPermission": "Permitir que $(PRODUCT_NAME) acceda a tu ubicación para mostrarte en el mapa."
         }
       ]
     ],
