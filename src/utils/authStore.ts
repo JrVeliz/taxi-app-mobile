@@ -4,7 +4,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 type UserState = {
   isLoggedIn: boolean;
-  logIn: () => void;
+  token: string | null;
+  logIn: (token: string) => void;
   logOut: () => void;
 };
 
@@ -12,14 +13,15 @@ export const useAuthStore = create(
   persist<UserState>(
     (set) => ({
       isLoggedIn: false,
-      logIn: () => {
+      token: null,
+      logIn: (token) => {
         set((state) => {
-          return { ...state, isLoggedIn: true };
+          return { ...state, isLoggedIn: true, token };
         });
       },
       logOut: () => {
         set((state) => {
-          return { ...state, isLoggedIn: false };
+          return { ...state, isLoggedIn: false, token: null };
         });
       },
     }),

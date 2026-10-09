@@ -40,16 +40,18 @@ export default function Login() {
     setLoading(true);
     try {
       const { token } = await login(user, password);
+      console.log("Token obtenido:", token);
       setLoadingProfile(true);
       const [profile] = await Promise.all([
         fetchProfile(token),
         wait(MIN_LOTTIE_MS),
       ]);
       console.log(profile);
-      logIn();
+      logIn(token);
     } catch (e: any) {
       setError(e.message);
       setLoadingProfile(false);
+      console.log("Error de inicio de sesión:", e.message);
     } finally {
       setLoading(false);
     }
