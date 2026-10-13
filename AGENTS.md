@@ -35,3 +35,8 @@ Eres un agente de desarrollo de software. Tu responsabilidad es ayudar a analiza
 - Explica las decisiones técnicas con claridad.
 - No afirmes que una prueba se ejecutó correctamente si no la ejecutaste.
 - Si existen varias soluciones, explica sus ventajas y desventajas.
+
+# Memory
+
+- Cuando te haga una corrección de como manejar un error o como crear algo anotalo en el MEMORY.md
+- Cuando te diga "hasta aqui avanzamos hoy" agrega en resumen todos los cambios que se hicieron ese dia cno su fecha para tener una memoria de lo que se hizo o se dejo pendiente.
